@@ -1,0 +1,32 @@
+version: "3"
+
+services:
+  counter:
+    image: grpcpython
+    #command: ["python3.6", "counter/server.py", "counter"]
+    command: ["/bin/bash"]
+    ports:
+      - "50051"
+    deploy:
+      replicas: 1
+
+#  proxy:
+#    image: grpctestapp
+#    command: ["/grpctestapp", "-upstream=counter:50051", "-bind=0.0.0.0:50052", "proxy"]
+#    ports:
+#      - "50052"
+#    depends_on:
+#      - counter
+#    deploy:
+#      replicas: 3
+
+  frontend:
+    image: grpcpython
+    #command: ["python3.6", "web.py", "frontend"]
+    command: ["/bin/bash"]
+    ports:
+      - "8080:8080"
+    depends_on:
+      - counter
+    deploy:
+      replicas: 1

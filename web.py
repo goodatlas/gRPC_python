@@ -53,11 +53,18 @@ class WebApp:
             self.send('%s is handling. count: %s' % (self.name, self.increment_count()), client)
             client.close()
 
+    def done(self):
+        self.socket.close()
+        print("Server Closed")
+
+
 if __name__ == '__main__':
     try:
         w = WebApp(sys.argv[1])
+        w.run()
     except IndexError:
         print("Usage: %s [app name]" % sys.argv[0])
+    except KeyboardInterrupt:
+        w.done()
     else:
-        # w.new_client()
-        w.run()
+        print("Good.")
