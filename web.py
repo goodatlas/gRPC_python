@@ -6,7 +6,7 @@ from counter import counter_pb2_grpc, counter_pb2
 
 
 class WebApp:
-    def __init__(self, name, s_host='localhost', s_port=8080):
+    def __init__(self, name, s_host='0.0.0.0', s_port=8080):
         self.name = name
 
         # for SOCKET
