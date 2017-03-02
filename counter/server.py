@@ -42,11 +42,17 @@ class Counter(counter_pb2_grpc.CounterServicer):
         try:
             Counter.page_count[request.name] += 1
         except KeyError:
-            Counter.page_count[request.name] = 1
+            raise RuntimeError('Unexpected Page!!!')
 
         self.print_data()
 
         return counter_pb2.IncrementResponse(count=Counter.total_count)
+
+    def InitPage(self, request, _):
+        Counter.page_count[request.name] = None
+        print(request.name, "is initialized")
+
+        return counter_pb2.InitPageResponse(name=request.name)
 
     @classmethod
     def total_page(cls):
