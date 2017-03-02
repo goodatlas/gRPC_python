@@ -10,7 +10,7 @@ import counter_pb2_grpc
 from concurrent import futures
 
 __ONE_DAY_BY_SECOND = 60 * 60 * 24
-HOST = 'localhost'  # [::] is allow all host
+# HOST = '[::]'  # [::] is allow all host
 PORT = 31337
 
 
@@ -58,7 +58,7 @@ class Counter(counter_pb2_grpc.CounterServicer):
 def run_server():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     counter_pb2_grpc.add_CounterServicer_to_server(Counter(), server)
-    server.add_insecure_port('%s:%d' % (HOST, PORT))
+    server.add_insecure_port('%s:%d' % ("[::]", PORT))
     server.start()
 
     try:
