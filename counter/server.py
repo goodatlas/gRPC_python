@@ -48,6 +48,12 @@ class Counter(counter_pb2_grpc.CounterServicer):
 
         return counter_pb2.IncrementResponse(count=Counter.total_count)
 
+    @classmethod
+    def total_page(cls):
+        # wrap list()
+        # because dict.keys() returns dict_keys type.
+        return list(cls.page_count.keys())
+
 
 def run_server():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
