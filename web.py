@@ -49,6 +49,8 @@ class WebApp:
         while True:
             client, addr = self.socket.accept()
             client.recv(1024)
+            # addr is tuple.
+            # len(addr) == 2
             print("%s:%s is connected" % addr)
             self.send('%s is handling. count: %s' % (self.name, self.increment_count()), client)
             client.close()
