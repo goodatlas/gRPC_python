@@ -3,15 +3,24 @@ syntax = "proto3";
 package counter;
 
 service Counter {
-  rpc Increment (IncrementRequest) returns (IncrementResponse) {}
+    rpc Increment (IncrementRequest) returns (IncrementResponse) {}
+    rpc InitPage (InitPageRequest) returns (InitPageResponse) {}
 }
 
 message IncrementRequest {
-  string name = 1;
+    string name = 1;
 }
 
 message IncrementResponse {
-  int32 count = 1;
+    int32 count = 1;
+}
+
+message InitPageRequest {
+    string name = 1;
+}
+
+message InitPageResponse {
+    string name = 1;
 }
 
 /*
