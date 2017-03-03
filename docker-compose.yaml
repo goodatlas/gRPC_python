@@ -2,31 +2,65 @@ version: "3"
 
 services:
   counter:
-    image: grpcpython
-    #command: ["python3.6", "counter/server.py", "counter"]
-    command: ["/bin/bash"]
+    image: grpcpython_debug
+    command: ["python3.6", "counter/server.py"]
+    #command: while true;do echo "test";sleep 1;done
     ports:
-      - "50051"
+      - "50001"
     deploy:
       replicas: 1
+    depends_on:
+      - dns
+    networks:
+      mynet:
+        # issue
+        # https://github.com/docker/compose/issues/4471
+        #
+        ipv4_address: 172.25.0.3
 
-#  proxy:
-#    image: grpctestapp
-#    command: ["/grpctestapp", "-upstream=counter:50051", "-bind=0.0.0.0:50052", "proxy"]
-#    ports:
-#      - "50052"
-#    depends_on:
-#      - counter
-#    deploy:
-#      replicas: 3
-
-  frontend:
-    image: grpcpython
-    #command: ["python3.6", "web.py", "frontend"]
-    command: ["/bin/bash"]
+  proxy:
+    image: grpcpython_debug
+    command: ["python3.6", "web.py", "proxy", "0.0.0.0", "50002"]
     ports:
-      - "8080:8080"
+      - "50002"
     depends_on:
       - counter
+      - dns
     deploy:
       replicas: 1
+    networks:
+      mynet:
+        ipv4_address: 172.25.0.7
+
+  frontend:
+    image: grpcpython_debug
+    #command: cat /etc/hosts
+    command: ["python3.6", "web.py", "frontend", "0.0.0.0", "50003"]
+    ports:
+      - "50003"
+    depends_on:
+      - counter
+      - dns
+    deploy:
+      replicas: 1
+    networks:
+      mynet:
+        ipv4_address: 172.25.0.5
+
+  dns:
+    image: grpcpython_debug
+    command: ["python3.6", "dns/server.py"]
+    ports:
+      - "8080:8080" # For Web Request
+      - "50000"     # For GRPC server
+    deploy:
+      replicas: 1
+    networks:
+      mynet:
+        ipv4_address: 172.25.0.9
+
+networks:
+  mynet:
+    ipam:
+     config:
+       - subnet: 172.25.0.0/24

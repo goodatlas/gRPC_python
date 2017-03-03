@@ -24,6 +24,11 @@ class CounterStub(object):
         request_serializer=counter__pb2.InitPageRequest.SerializeToString,
         response_deserializer=counter__pb2.InitPageResponse.FromString,
         )
+    self.InitConnection = channel.unary_unary(
+        '/counter.Counter/InitConnection',
+        request_serializer=counter__pb2.InitRequest.SerializeToString,
+        response_deserializer=counter__pb2.InitResponse.FromString,
+        )
 
 
 class CounterServicer(object):
@@ -34,6 +39,11 @@ class CounterServicer(object):
     raise NotImplementedError('Method not implemented!')
 
   def InitPage(self, request, context):
+    context.set_code(grpc.StatusCode.UNIMPLEMENTED)
+    context.set_details('Method not implemented!')
+    raise NotImplementedError('Method not implemented!')
+
+  def InitConnection(self, request, context):
     context.set_code(grpc.StatusCode.UNIMPLEMENTED)
     context.set_details('Method not implemented!')
     raise NotImplementedError('Method not implemented!')
@@ -50,6 +60,11 @@ def add_CounterServicer_to_server(servicer, server):
           servicer.InitPage,
           request_deserializer=counter__pb2.InitPageRequest.FromString,
           response_serializer=counter__pb2.InitPageResponse.SerializeToString,
+      ),
+      'InitConnection': grpc.unary_unary_rpc_method_handler(
+          servicer.InitConnection,
+          request_deserializer=counter__pb2.InitRequest.FromString,
+          response_serializer=counter__pb2.InitResponse.SerializeToString,
       ),
   }
   generic_handler = grpc.method_handlers_generic_handler(

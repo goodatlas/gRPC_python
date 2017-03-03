@@ -2,6 +2,8 @@ import os
 import sys
 from time import sleep
 
+from socket import socket, AF_INET, SOCK_DGRAM
+
 import grpc
 
 import counter_pb2
@@ -10,7 +12,10 @@ import counter_pb2_grpc
 from concurrent import futures
 
 __ONE_DAY_BY_SECOND = 60 * 60 * 24
+
+
 # HOST = '[::]'  # [::] is allow all host
+
 PORT = 31337
 
 
@@ -49,10 +54,13 @@ class Counter(counter_pb2_grpc.CounterServicer):
         return counter_pb2.IncrementResponse(count=Counter.total_count)
 
     def InitPage(self, request, _):
-        Counter.page_count[request.name] = None
+        Counter.page_count[request.name] = 0
         print(request.name, "is initialized")
 
         return counter_pb2.InitPageResponse(name=request.name)
+
+    def InitConnection(self, *_):
+        return counter_pb2.InitResponse(result=True)
 
     @classmethod
     def total_page(cls):
@@ -66,6 +74,7 @@ def run_server():
     counter_pb2_grpc.add_CounterServicer_to_server(Counter(), server)
     server.add_insecure_port('%s:%d' % ("[::]", PORT))
     server.start()
+    print("Counter Server Start!!!")
 
     try:
         while True:
