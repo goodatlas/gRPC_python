@@ -1,0 +1,5 @@
+FROM grpcpython
+ADD counter /grpc_python/counter
+ADD dns /grpc_python/dns
+ADD web.py /grpc_python/web.py
+ADD requirements /grpc_python/requirements
