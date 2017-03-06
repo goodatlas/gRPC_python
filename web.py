@@ -36,43 +36,8 @@ class WebApp:
         self.__bind_socket()
         self.__listen()
 
-        counter_find = False
-        dns_find = False
-
-        # for find counter GRPC and DNS GRPC address
-        for num in range(1, 255):
-            ip = '172.25.0.%d' % num
-
-            # kidding
-            ip = 'localhost'
-
-            print("Challenge %s" % ip)
-
-            if counter_find is False:
-                self.counter_stub = self.__setting_channel_stub(counter_pb2_grpc.CounterStub, ip, PORT)
-                try:
-                    self.test_counter_connection()
-                except _Rendezvous:
-                    pass
-                else:
-                    # print(self.name, " is find counter address by ", ip)
-                    print(f"[ {self.name} ] find counter address: {ip}")
-                    counter_find = True
-
-            if dns_find is False:
-                self.dns_stub = self.__setting_channel_stub(dns_pb2_grpc.DNSInfoStub, ip, dns_PORT)
-                try:
-                    self.test_dns_connection()
-                except _Rendezvous:
-                    raise
-                else:
-                    # print(self.name, " is find dns address by ", ip)
-                    print(f"[ {self.name} ] find dns address: {ip}")
-                    dns_find = True
-
-            if counter_find and dns_find:
-                break
-
+        self.counter_stub = self.__setting_channel_stub(counter_pb2_grpc.CounterStub, 'localhost', PORT)
+        self.dns_stub = self.__setting_channel_stub(dns_pb2_grpc.DNSInfoStub, 'localhost', dns_PORT)
         self.init_page()
 
     def test_counter_connection(self):

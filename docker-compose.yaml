@@ -6,7 +6,7 @@ services:
     command: ["python3.6", "counter/server.py"]
     #command: while true;do echo "test";sleep 1;done
     ports:
-      - "50001"
+      - "50001:50001"
     deploy:
       replicas: 1
     depends_on:
@@ -15,8 +15,12 @@ services:
       mynet:
         # issue
         # https://github.com/docker/compose/issues/4471
-        #
+        # http://stackoverflow.com/questions/35459262/how-to-set-static-ip-address-to-a-container-running-into-a-swarm-over-a-weave-ov
         ipv4_address: 172.25.0.3
+
+    extra_hosts:
+      - "dns_container:172.25.0.8"
+      - "counter_container:172.25.0.2"
 
   proxy:
     image: grpcpython_debug
@@ -26,11 +30,16 @@ services:
     depends_on:
       - counter
       - dns
+      - frontend
     deploy:
       replicas: 1
     networks:
       mynet:
         ipv4_address: 172.25.0.7
+
+    extra_hosts:
+      - "dns_container:172.25.0.8"
+      - "counter_container:172.25.0.2"
 
   frontend:
     image: grpcpython_debug
@@ -47,20 +56,32 @@ services:
       mynet:
         ipv4_address: 172.25.0.5
 
+    extra_hosts:
+      - "dns_container:172.25.0.8"
+      - "counter_container:172.25.0.2"
+
   dns:
     image: grpcpython_debug
     command: ["python3.6", "dns/server.py"]
     ports:
       - "8080:8080" # For Web Request
-      - "50000"     # For GRPC server
+      - "50000:50000"     # For GRPC server
     deploy:
       replicas: 1
     networks:
       mynet:
         ipv4_address: 172.25.0.9
 
+    extra_hosts:
+      - "dns_container:172.25.0.8"
+      - "counter_container:172.25.0.2"
+
+# networks:
+#   mynet:
+#     ipam:
+#      config:
+#        - subnet: 172.25.0.0/24
 networks:
   mynet:
-    ipam:
-     config:
-       - subnet: 172.25.0.0/24
+    external:
+      name: mynet
