@@ -1,8 +1,4 @@
 FROM ubuntu
-ADD counter /grpc_python/counter
-ADD dns /grpc_python/dns
-ADD web.py /grpc_python/web.py
-ADD requirements /grpc_python/requirements
 
 WORKDIR /grpc_python/requirements
 
@@ -15,5 +11,10 @@ RUN apt-get install -y libpython3.6-dev
 
 RUN python3.6 get-pip.py
 RUN python3.6 -m pip install -r requirements.txt
+
+ADD counter /grpc_python/counter
+ADD dns /grpc_python/dns
+ADD web.py /grpc_python/web.py
+ADD requirements /grpc_python/requirements
 
 WORKDIR /grpc_python
