@@ -1,11 +1,9 @@
-import sys
-import grpc
 from socket import *
-from counter.server import PORT
-from dns.server import PORT as dns_PORT
+
+import grpc
+
 from counter import counter_pb2_grpc, counter_pb2
 from dns import dns_pb2, dns_pb2_grpc
-from grpc._channel import _Rendezvous
 
 
 class WebApp:
@@ -17,28 +15,37 @@ class WebApp:
     @staticmethod
     def get_ip():
         import subprocess
-        output = subprocess.check_output("ifconfig | grep inet | grep 127", shell=True).decode()
+        output = subprocess.check_output("ifconfig | grep 172", shell=True).decode()
+
         for obj in output.split(' '):
-            if '127' in obj:
-                return obj
+            if 'addr' in obj:
+                return obj.split(':')[1]
         else:
             raise RuntimeError("There is no valid ip address")
 
-    def __init__(self, name, s_host, s_port):
+    def __init__(self, name, s_host, s_port, counter_info, dns_info):
 
         self.name = WebApp.get_host() + '_' + name
 
+        self.host = s_host
+        self.port = int(s_port)
+        self.ip_addr = self.get_ip()
+
+        print("my ip: ", self.ip_addr)
+
+        print("counter info: ", counter_info)
+        print("dns info: ", dns_info)
+
+        self.counter_stub = counter_pb2_grpc.CounterStub(grpc.insecure_channel(counter_info))
+        self.dns_stub = dns_pb2_grpc.DNSInfoStub(grpc.insecure_channel(dns_info))
+
+        self.add_dns()
+        self.init_page()
+
         # for SOCKET
         self.socket = socket(AF_INET, SOCK_STREAM)
-        self.port = int(s_port)
-        self.host = s_host
-        self.ip_addr = self.get_ip()
         self.__bind_socket()
         self.__listen()
-
-        self.counter_stub = self.__setting_channel_stub(counter_pb2_grpc.CounterStub, 'localhost', PORT)
-        self.dns_stub = self.__setting_channel_stub(dns_pb2_grpc.DNSInfoStub, 'localhost', dns_PORT)
-        self.init_page()
 
     def test_counter_connection(self):
         self.counter_stub.InitConnection(counter_pb2.InitRequest(result=True))
@@ -53,13 +60,10 @@ class WebApp:
         return self.counter_stub.Increment(counter_pb2.IncrementRequest(name=self.name))
 
     def init_page(self):
-        self.add_dns()
         self.counter_stub.InitPage(counter_pb2.InitPageRequest(name=self.name))
 
     @staticmethod
-    def __setting_channel_stub(stub_func, ip, port):
-        print(ip, port, " connecting")
-        channel = grpc.insecure_channel('%s:%d' % (ip, port))
+    def __setting_channel_stub(stub_func, channel):
         stub = stub_func(channel)
 
         return stub
@@ -96,6 +100,8 @@ class WebApp:
 
 
 if __name__ == '__main__':
+    import sys
+
     try:
         w = WebApp(sys.argv[1], sys.argv[2], sys.argv[3])
         w.run()
