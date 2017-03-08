@@ -16,8 +16,6 @@ __ONE_DAY_BY_SECOND = 60 * 60 * 24
 
 # HOST = '[::]'  # [::] is allow all host
 
-PORT = 31337
-
 
 class Counter(counter_pb2_grpc.CounterServicer):
     total_count = 0
@@ -72,7 +70,7 @@ class Counter(counter_pb2_grpc.CounterServicer):
 def run_server():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     counter_pb2_grpc.add_CounterServicer_to_server(Counter(), server)
-    server.add_insecure_port('%s:%d' % ("[::]", PORT))
+    server.add_insecure_port('[::]:31337')
     server.start()
     print("Counter Server Start!!!")
 
