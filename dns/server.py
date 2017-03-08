@@ -1,12 +1,13 @@
-from multiprocessing import Process, Manager
-from concurrent import futures
-from socket import *
-from pprint import pprint
+import time
 
-import grpc
+from concurrent import futures
+from pprint import pprint
+from socket import *
 
 import dns_pb2
 import dns_pb2_grpc
+import grpc
+
 
 PORT = 50000  # GRPC server port
 
@@ -45,18 +46,19 @@ class DNSInfo(dns_pb2_grpc.DNSInfoServicer):
 
     def RoundHost(self, *_):
         host, port = DNSInfo.rotate_host_list()
+        print('Send ', host, port, ' from DNS grpc')
         return dns_pb2.HostResponse(host=host, port=port)
 
 
 class DNSServer:
-    def __init__(self, host='0.0.0.0', _port=8080):
+    def __init__(self, dns_grpc="dns_grpc:50000", host='0.0.0.0', _port=8080):
         self.s = socket(AF_INET, SOCK_STREAM)
         self.s.setsockopt(SOL_SOCKET, SO_REUSEADDR, 1)
         self.s.bind((host, _port))
         self.s.listen(100)
         self.info_manager = InfoManager()
 
-        channel = grpc.insecure_channel("localhost:%d" % PORT)
+        channel = grpc.insecure_channel(dns_grpc)
         self.stub = dns_pb2_grpc.DNSInfoStub(channel)
 
     def get_host(self):
@@ -70,11 +72,14 @@ class DNSServer:
 
             host_port = self.get_host()
             print("Redirect to: ", host_port)
-            with socket(AF_INET, SOCK_STREAM) as s:
-                s.connect(host_port)
-                s.send(client.recv(4096))
-                client.send(s.recv(4096))
-                client.close()
+
+            s = socket(AF_INET, SOCK_STREAM)
+            s.connect(host_port)
+            s.send(client.recv(1024))
+            client.send(s.recv(1024))
+
+            client.close()
+            s.close()
 
     def done(self):
         self.s.close()
@@ -88,38 +93,16 @@ def run_grpc_server():
     print("Run GRPC Server!!")
 
     try:
-        import time
         while True:
             time.sleep(100000)
     except KeyboardInterrupt:
         server.stop(0)
 
 
-def run_dns_server():
+def run_dns_server(grpc_info):
     print("Run DNS Server!!")
-    d = DNSServer()
-    try:
-        d.run()
-    except KeyboardInterrupt:
-        d.done()
+    DNSServer(grpc_info).run()
 
-
-def main():
-    process_list = [Process(target=run_grpc_server),
-                    Process(target=run_dns_server)]
-
-    # run_grpc_server()
-    # run_dns_server()
-
-    for process in process_list:
-        process.start()
-
-    for process in process_list:
-        process.join()
-
-
-if __name__ == '__main__':
-    main()
 
 """
 
