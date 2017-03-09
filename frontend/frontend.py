@@ -1,36 +1,23 @@
 from webapp import WebApp
-from socket import *
 
 
 class Frontend(WebApp):
-    def bind(self, bind_addr, backlog=5):
-        self.s.bind(bind_addr)
-        self.s.listen(backlog)
 
-    def __init__(self, bind_addr, upstream_addr):
-        super().__init__()
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
 
-        # Set Attr
-        # --------
-
-        # Setting Socket for web request
-        self.s = socket(AF_INET, SOCK_STREAM)
-        self.bind(bind_addr)
-
-        # Setting grpc request channel
-        self.__set_channel_stub(upstream_addr)
+        self.bind(self.bind_addr)
 
     def start(self):
         while True:
             client, addr = self.s.accept()
             client.recv(1024)
 
-            count = self.__increase_count()
+            count = self.increase_count().count
 
-            client.send(b"""
-            Name: %s
-            Count: %d
-            """ % (self.name, count))
+            resp = ("Name: %s\nCount: %d\n" % (self.host_name, count))
+
+            client.send(resp.encode('utf8'))
 
             client.close()
 
