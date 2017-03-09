@@ -18,8 +18,9 @@ RUN python3.6 get-pip.py
 RUN python3.6 -m pip install -r requirements.txt
 
 ADD counter /grpc_python/counter
-ADD dns /grpc_python/dns
+ADD frontend /grpc_python/frontend
+ADD proxy /grpc_python/proxy
 ADD main.py /grpc_python/main.py
-ADD web.py /grpc_python/web.py
+ADD webapp.py /grpc_python/webapp.py
 
 WORKDIR /grpc_python
