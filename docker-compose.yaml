@@ -18,7 +18,7 @@ services:
     image: grpcpython
     # command: ["python3.6", "web.py", "proxy", "0.0.0.0", "50002"]
     # command: sleep 1000000
-    command: python3.6 main.py --name proxy --dns dns_grpc:50000 --counter counter:31337 --listen_ip 0.0.0.0 --listen_port 50002
+    command: python3.6 main.py --name proxy --upstream counter:31337 --bind 0.0.0.0:50002
     ports:
       - "50002"
     deploy:
@@ -28,26 +28,8 @@ services:
     image: grpcpython
     # command: ["python3.6", "web.py", "frontend", "0.0.0.0", "50003"]
     # command: sleep 1000000
-    command: python3.6 main.py --name frontend --dns dns_grpc:50000 --counter counter:31337 --listen_ip 0.0.0.0 --listen_port 50002
+    command: python3.6 main.py --name frontend --upstream proxy:50002 --bind 0.0.0.0:8080
     ports:
-      - "50003"
+      - "8080:8080"
     deploy:
       replicas: 2
-
-  dns:
-    image: grpcpython
-    # command: ["python3.6", "dns/server.py"]
-    # command: sleep 1000000
-    command: python3.6 main.py --name dns_server --dns dns_grpc:50000
-    ports:
-      - "8080:8080"     # For GRPC server
-    deploy:
-      replicas: 1
-
-  dns_grpc:
-    image: grpcpython
-    command: python3.6 main.py --name dns_grpc
-    ports:
-      - "50000"
-    deploy:
-      replicas: 1
