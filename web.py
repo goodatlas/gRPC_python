@@ -15,7 +15,7 @@ class WebApp:
     @staticmethod
     def get_ip():
         import subprocess
-        output = subprocess.check_output("ifconfig | grep 172", shell=True).decode()
+        output = subprocess.check_output("ifconfig | grep 10.0", shell=True).decode()
 
         for obj in output.split(' '):
             if 'addr' in obj:
