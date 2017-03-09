@@ -1,15 +1,11 @@
 import os
 import sys
+from concurrent import futures
 from time import sleep
-
-from socket import socket, AF_INET, SOCK_DGRAM
-
-import grpc
 
 import counter_pb2
 import counter_pb2_grpc
-
-from concurrent import futures
+import grpc
 
 __ONE_DAY_BY_SECOND = 60 * 60 * 24
 
@@ -34,11 +30,15 @@ class Counter(counter_pb2_grpc.CounterServicer):
     @classmethod
     def print_data(cls):
         Counter.clear_screen()
-        print("---------------------")
-        print('Hits: %d' % cls.total_count)
+        write_func = sys.stdout.write
+        write_func("\n")
+        write_func("---------------------\n")
+        write_func('Hits: %d\n' % cls.total_count)
         for page_name in cls.page_count.keys():
-            print('%s: %d' % (page_name, cls.page_count[page_name]))
-        print("---------------------")
+            write_func('%s: %d\n' % (page_name, cls.page_count[page_name]))
+        write_func("---------------------\n")
+
+        sys.stdout.flush()
 
     def Increment(self, request, _):
         Counter.total_count += 1

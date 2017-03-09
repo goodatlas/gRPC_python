@@ -31,3 +31,5 @@ ADD web.py /grpc_python/web.py
 RUN python -m pip install -r requirements.txt
 
 WORKDIR /grpc_python
+
+RUN export TERM=xterm
