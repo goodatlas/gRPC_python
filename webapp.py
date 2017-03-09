@@ -17,5 +17,5 @@ class WebApp:
         return self.stub.Increment(IncrementRequest(name=self.name))
 
     def __init__(self):
-        self.name = Web.get_host()
+        self.name = WebApp.get_host()
         self.stub = None
