@@ -11,8 +11,6 @@ services:
       - "31337"
     deploy:
       replicas: 1
-    depends_on:
-      - dns
 
   proxy:
     image: grpcpython_debug
@@ -21,10 +19,6 @@ services:
     command: python3.6 main.py --name proxy --dns dns_grpc:50000 --counter counter:31337 --listen_ip 0.0.0.0 --listen_port 50002
     ports:
       - "50002"
-    depends_on:
-      - counter
-      - dns
-      - frontend
     deploy:
       replicas: 1
 
@@ -35,9 +29,6 @@ services:
     command: python3.6 main.py --name frontend --dns dns_grpc:50000 --counter counter:31337 --listen_ip 0.0.0.0 --listen_port 50003
     ports:
       - "50003"
-    depends_on:
-      - counter
-      - dns
     deploy:
       replicas: 1
 
