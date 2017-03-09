@@ -28,7 +28,7 @@ services:
     image: grpcpython_debug
     # command: ["python3.6", "web.py", "frontend", "0.0.0.0", "50003"]
     # command: sleep 1000000
-    command: python3.6 main.py --name frontend --dns dns_grpc:50000 --counter counter:31337 --listen_ip 0.0.0.0 --listen_port 50003
+    command: python3.6 main.py --name frontend --dns dns_grpc:50000 --counter counter:31337 --listen_ip 0.0.0.0 --listen_port 50002
     ports:
       - "50003"
     deploy:
