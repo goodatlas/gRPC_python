@@ -45,7 +45,7 @@ class Counter(counter_pb2_grpc.CounterServicer):
         try:
             Counter.page_count[request.name] += 1
         except KeyError:
-            raise RuntimeError('Unexpected Page!!!')
+            Counter.page_count[request.name] = 1
 
         self.print_data()
 
