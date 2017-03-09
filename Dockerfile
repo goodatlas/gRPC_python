@@ -1,35 +1,25 @@
-FROM python:3.6-alpine
+FROM ubuntu
 
-RUN echo 'http://dl-cdn.alpinelinux.org/alpine/edge/main' >> /etc/apk/repositories
+WORKDIR /grpc_python/requirements
 
-RUN apk update
+RUN apt-get update
+RUN apt-get install -y python-software-properties software-properties-common python-dev python3-dev gcc build-essential g++ net-tools
+RUN add-apt-repository ppa:jonathonf/python-3.6
+RUN apt-get update
+RUN apt-get install python3.6 -y
+RUN apt-get install -y libpython3.6-dev
+
 
 ADD requirements /grpc_python/requirements
+
 WORKDIR /grpc_python/requirements
-RUN python get-pip.py
 
-
-RUN apk add --no-cache \
-    python3-dev=3.6.0-r0 \
-    bash \
-    python-dev \
-    gcc \
-    g++ \
-    libc6-compat \
-    build-base \
-    linux-headers \
-    make \
-    musl-dev \
-    libffi \
-    libffi-dev \
-    && rm -rf /var/cache/apk/*
+RUN python3.6 get-pip.py
+RUN python3.6 -m pip install -r requirements.txt
 
 ADD counter /grpc_python/counter
 ADD dns /grpc_python/dns
+ADD main.py /grpc_python/main.py
 ADD web.py /grpc_python/web.py
 
-RUN python -m pip install -r requirements.txt
-
 WORKDIR /grpc_python
-
-RUN export TERM=xterm
