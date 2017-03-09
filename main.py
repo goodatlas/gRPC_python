@@ -24,3 +24,6 @@ if __name__ == '__main__':
 
     elif args.name == 'counter':
         run_server()
+
+    else:
+        raise RuntimeError("Invalid App name!!")
