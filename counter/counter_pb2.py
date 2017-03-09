@@ -19,7 +19,7 @@ DESCRIPTOR = _descriptor.FileDescriptor(
   name='counter.proto',
   package='counter',
   syntax='proto3',
-  serialized_pb=_b('\n\rcounter.proto\x12\x07\x63ounter\" \n\x10IncrementRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\"\n\x11IncrementResponse\x12\r\n\x05\x63ount\x18\x01 \x01(\x05\"\x1f\n\x0fInitPageRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\" \n\x10InitPageResponse\x12\x0c\n\x04name\x18\x01 \x01(\t\"\x1d\n\x0bInitRequest\x12\x0e\n\x06result\x18\x01 \x01(\x08\"\x1e\n\x0cInitResponse\x12\x0e\n\x06result\x18\x01 \x01(\x08\x32\xd3\x01\n\x07\x43ounter\x12\x44\n\tIncrement\x12\x19.counter.IncrementRequest\x1a\x1a.counter.IncrementResponse\"\x00\x12\x41\n\x08InitPage\x12\x18.counter.InitPageRequest\x1a\x19.counter.InitPageResponse\"\x00\x12?\n\x0eInitConnection\x12\x14.counter.InitRequest\x1a\x15.counter.InitResponse\"\x00\x62\x06proto3')
+  serialized_pb=_b('\n\rcounter.proto\x12\x07\x63ounter\" \n\x10IncrementRequest\x12\x0c\n\x04name\x18\x01 \x01(\t\"\"\n\x11IncrementResponse\x12\r\n\x05\x63ount\x18\x01 \x01(\x05\x32O\n\x07\x43ounter\x12\x44\n\tIncrement\x12\x19.counter.IncrementRequest\x1a\x1a.counter.IncrementResponse\"\x00\x62\x06proto3')
 )
 _sym_db.RegisterFileDescriptor(DESCRIPTOR)
 
@@ -87,136 +87,8 @@ _INCREMENTRESPONSE = _descriptor.Descriptor(
   serialized_end=94,
 )
 
-
-_INITPAGEREQUEST = _descriptor.Descriptor(
-  name='InitPageRequest',
-  full_name='counter.InitPageRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='name', full_name='counter.InitPageRequest.name', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=96,
-  serialized_end=127,
-)
-
-
-_INITPAGERESPONSE = _descriptor.Descriptor(
-  name='InitPageResponse',
-  full_name='counter.InitPageResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='name', full_name='counter.InitPageResponse.name', index=0,
-      number=1, type=9, cpp_type=9, label=1,
-      has_default_value=False, default_value=_b("").decode('utf-8'),
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=129,
-  serialized_end=161,
-)
-
-
-_INITREQUEST = _descriptor.Descriptor(
-  name='InitRequest',
-  full_name='counter.InitRequest',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='result', full_name='counter.InitRequest.result', index=0,
-      number=1, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=163,
-  serialized_end=192,
-)
-
-
-_INITRESPONSE = _descriptor.Descriptor(
-  name='InitResponse',
-  full_name='counter.InitResponse',
-  filename=None,
-  file=DESCRIPTOR,
-  containing_type=None,
-  fields=[
-    _descriptor.FieldDescriptor(
-      name='result', full_name='counter.InitResponse.result', index=0,
-      number=1, type=8, cpp_type=7, label=1,
-      has_default_value=False, default_value=False,
-      message_type=None, enum_type=None, containing_type=None,
-      is_extension=False, extension_scope=None,
-      options=None),
-  ],
-  extensions=[
-  ],
-  nested_types=[],
-  enum_types=[
-  ],
-  options=None,
-  is_extendable=False,
-  syntax='proto3',
-  extension_ranges=[],
-  oneofs=[
-  ],
-  serialized_start=194,
-  serialized_end=224,
-)
-
 DESCRIPTOR.message_types_by_name['IncrementRequest'] = _INCREMENTREQUEST
 DESCRIPTOR.message_types_by_name['IncrementResponse'] = _INCREMENTRESPONSE
-DESCRIPTOR.message_types_by_name['InitPageRequest'] = _INITPAGEREQUEST
-DESCRIPTOR.message_types_by_name['InitPageResponse'] = _INITPAGERESPONSE
-DESCRIPTOR.message_types_by_name['InitRequest'] = _INITREQUEST
-DESCRIPTOR.message_types_by_name['InitResponse'] = _INITRESPONSE
 
 IncrementRequest = _reflection.GeneratedProtocolMessageType('IncrementRequest', (_message.Message,), dict(
   DESCRIPTOR = _INCREMENTREQUEST,
@@ -231,34 +103,6 @@ IncrementResponse = _reflection.GeneratedProtocolMessageType('IncrementResponse'
   # @@protoc_insertion_point(class_scope:counter.IncrementResponse)
   ))
 _sym_db.RegisterMessage(IncrementResponse)
-
-InitPageRequest = _reflection.GeneratedProtocolMessageType('InitPageRequest', (_message.Message,), dict(
-  DESCRIPTOR = _INITPAGEREQUEST,
-  __module__ = 'counter_pb2'
-  # @@protoc_insertion_point(class_scope:counter.InitPageRequest)
-  ))
-_sym_db.RegisterMessage(InitPageRequest)
-
-InitPageResponse = _reflection.GeneratedProtocolMessageType('InitPageResponse', (_message.Message,), dict(
-  DESCRIPTOR = _INITPAGERESPONSE,
-  __module__ = 'counter_pb2'
-  # @@protoc_insertion_point(class_scope:counter.InitPageResponse)
-  ))
-_sym_db.RegisterMessage(InitPageResponse)
-
-InitRequest = _reflection.GeneratedProtocolMessageType('InitRequest', (_message.Message,), dict(
-  DESCRIPTOR = _INITREQUEST,
-  __module__ = 'counter_pb2'
-  # @@protoc_insertion_point(class_scope:counter.InitRequest)
-  ))
-_sym_db.RegisterMessage(InitRequest)
-
-InitResponse = _reflection.GeneratedProtocolMessageType('InitResponse', (_message.Message,), dict(
-  DESCRIPTOR = _INITRESPONSE,
-  __module__ = 'counter_pb2'
-  # @@protoc_insertion_point(class_scope:counter.InitResponse)
-  ))
-_sym_db.RegisterMessage(InitResponse)
 
 
 try:
@@ -284,31 +128,11 @@ try:
           request_serializer=IncrementRequest.SerializeToString,
           response_deserializer=IncrementResponse.FromString,
           )
-      self.InitPage = channel.unary_unary(
-          '/counter.Counter/InitPage',
-          request_serializer=InitPageRequest.SerializeToString,
-          response_deserializer=InitPageResponse.FromString,
-          )
-      self.InitConnection = channel.unary_unary(
-          '/counter.Counter/InitConnection',
-          request_serializer=InitRequest.SerializeToString,
-          response_deserializer=InitResponse.FromString,
-          )
 
 
   class CounterServicer(object):
 
     def Increment(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def InitPage(self, request, context):
-      context.set_code(grpc.StatusCode.UNIMPLEMENTED)
-      context.set_details('Method not implemented!')
-      raise NotImplementedError('Method not implemented!')
-
-    def InitConnection(self, request, context):
       context.set_code(grpc.StatusCode.UNIMPLEMENTED)
       context.set_details('Method not implemented!')
       raise NotImplementedError('Method not implemented!')
@@ -320,16 +144,6 @@ try:
             servicer.Increment,
             request_deserializer=IncrementRequest.FromString,
             response_serializer=IncrementResponse.SerializeToString,
-        ),
-        'InitPage': grpc.unary_unary_rpc_method_handler(
-            servicer.InitPage,
-            request_deserializer=InitPageRequest.FromString,
-            response_serializer=InitPageResponse.SerializeToString,
-        ),
-        'InitConnection': grpc.unary_unary_rpc_method_handler(
-            servicer.InitConnection,
-            request_deserializer=InitRequest.FromString,
-            response_serializer=InitResponse.SerializeToString,
         ),
     }
     generic_handler = grpc.method_handlers_generic_handler(
@@ -345,10 +159,6 @@ try:
     only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0."""
     def Increment(self, request, context):
       context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def InitPage(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
-    def InitConnection(self, request, context):
-      context.code(beta_interfaces.StatusCode.UNIMPLEMENTED)
 
 
   class BetaCounterStub(object):
@@ -360,12 +170,6 @@ try:
     def Increment(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
       raise NotImplementedError()
     Increment.future = None
-    def InitPage(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    InitPage.future = None
-    def InitConnection(self, request, timeout, metadata=None, with_call=False, protocol_options=None):
-      raise NotImplementedError()
-    InitConnection.future = None
 
 
   def beta_create_Counter_server(servicer, pool=None, pool_size=None, default_timeout=None, maximum_timeout=None):
@@ -376,18 +180,12 @@ try:
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_deserializers = {
       ('counter.Counter', 'Increment'): IncrementRequest.FromString,
-      ('counter.Counter', 'InitConnection'): InitRequest.FromString,
-      ('counter.Counter', 'InitPage'): InitPageRequest.FromString,
     }
     response_serializers = {
       ('counter.Counter', 'Increment'): IncrementResponse.SerializeToString,
-      ('counter.Counter', 'InitConnection'): InitResponse.SerializeToString,
-      ('counter.Counter', 'InitPage'): InitPageResponse.SerializeToString,
     }
     method_implementations = {
       ('counter.Counter', 'Increment'): face_utilities.unary_unary_inline(servicer.Increment),
-      ('counter.Counter', 'InitConnection'): face_utilities.unary_unary_inline(servicer.InitConnection),
-      ('counter.Counter', 'InitPage'): face_utilities.unary_unary_inline(servicer.InitPage),
     }
     server_options = beta_implementations.server_options(request_deserializers=request_deserializers, response_serializers=response_serializers, thread_pool=pool, thread_pool_size=pool_size, default_timeout=default_timeout, maximum_timeout=maximum_timeout)
     return beta_implementations.server(method_implementations, options=server_options)
@@ -401,18 +199,12 @@ try:
     generated only to ease transition from grpcio<0.15.0 to grpcio>=0.15.0"""
     request_serializers = {
       ('counter.Counter', 'Increment'): IncrementRequest.SerializeToString,
-      ('counter.Counter', 'InitConnection'): InitRequest.SerializeToString,
-      ('counter.Counter', 'InitPage'): InitPageRequest.SerializeToString,
     }
     response_deserializers = {
       ('counter.Counter', 'Increment'): IncrementResponse.FromString,
-      ('counter.Counter', 'InitConnection'): InitResponse.FromString,
-      ('counter.Counter', 'InitPage'): InitPageResponse.FromString,
     }
     cardinalities = {
       'Increment': cardinality.Cardinality.UNARY_UNARY,
-      'InitConnection': cardinality.Cardinality.UNARY_UNARY,
-      'InitPage': cardinality.Cardinality.UNARY_UNARY,
     }
     stub_options = beta_implementations.stub_options(host=host, metadata_transformer=metadata_transformer, request_serializers=request_serializers, response_deserializers=response_deserializers, thread_pool=pool, thread_pool_size=pool_size)
     return beta_implementations.dynamic_stub(channel, 'counter.Counter', cardinalities, options=stub_options)
