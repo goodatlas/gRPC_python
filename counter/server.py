@@ -51,21 +51,6 @@ class Counter(counter_pb2_grpc.CounterServicer):
 
         return counter_pb2.IncrementResponse(count=Counter.total_count)
 
-    def InitPage(self, request, _):
-        Counter.page_count[request.name] = 0
-        print(request.name, "is initialized")
-
-        return counter_pb2.InitPageResponse(name=request.name)
-
-    def InitConnection(self, *_):
-        return counter_pb2.InitResponse(result=True)
-
-    @classmethod
-    def total_page(cls):
-        # wrap list()
-        # because dict.keys() returns dict_keys type.
-        return list(cls.page_count.keys())
-
 
 def run_server():
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
