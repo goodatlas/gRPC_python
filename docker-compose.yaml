@@ -11,6 +11,8 @@ services:
       - "31337"
     deploy:
       replicas: 1
+    environment:
+      - TERM=xterm
 
   proxy:
     image: grpcpython_debug
@@ -20,7 +22,7 @@ services:
     ports:
       - "50002"
     deploy:
-      replicas: 1
+      replicas: 4
 
   frontend:
     image: grpcpython_debug
@@ -30,7 +32,7 @@ services:
     ports:
       - "50003"
     deploy:
-      replicas: 1
+      replicas: 2
 
   dns:
     image: grpcpython_debug
