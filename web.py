@@ -3,7 +3,6 @@ from socket import *
 import grpc
 
 from counter import counter_pb2_grpc, counter_pb2
-from dns import dns_pb2, dns_pb2_grpc
 
 
 class WebApp:
@@ -37,30 +36,14 @@ class WebApp:
         print("dns info: ", dns_info)
 
         self.counter_stub = counter_pb2_grpc.CounterStub(grpc.insecure_channel(counter_info))
-        self.dns_stub = dns_pb2_grpc.DNSInfoStub(grpc.insecure_channel(dns_info))
-
-        self.add_dns()
-        self.init_page()
 
         # for SOCKET
         self.socket = socket(AF_INET, SOCK_STREAM)
         self.__bind_socket()
         self.__listen()
 
-    def test_counter_connection(self):
-        self.counter_stub.InitConnection(counter_pb2.InitRequest(result=True))
-
-    def test_dns_connection(self):
-        self.dns_stub.InitConnection(dns_pb2.InitRequest(result=True))
-
-    def add_dns(self):
-        self.dns_stub.InitInfo(dns_pb2.InfoRequest(host=self.ip_addr, port=self.port))
-
     def increment_count(self):
         return self.counter_stub.Increment(counter_pb2.IncrementRequest(name=self.name))
-
-    def init_page(self):
-        self.counter_stub.InitPage(counter_pb2.InitPageRequest(name=self.name))
 
     @staticmethod
     def __setting_channel_stub(stub_func, channel):
