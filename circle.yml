@@ -1,0 +1,14 @@
+## Customize the test machine
+machine:
+
+  timezone:
+    Asia/Seoul
+    # America/Los_Angeles # Set the timezone
+
+  python:
+    version: 3.6.0
+
+## Customize dependencies
+dependencies:
+  pre:
+    - pip install -r requirements/requirements.txt
