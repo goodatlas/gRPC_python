@@ -14,8 +14,8 @@ class WebApp:
         import platform
         return platform.node()
 
-    def set_channel_stub(self, upstreamaddr):
-        channel = grpc.insecure_channel(upstreamaddr)
+    def set_channel_stub(self, upstreamaddr, channel_options = None):
+        channel = grpc.insecure_channel(upstreamaddr, channel_options)
         self.stub = CounterStub(channel)
 
     def increase_count(self, name=None):
@@ -36,7 +36,7 @@ class WebApp:
         self.s.bind((host, int(port)))
         self.s.listen(backlog)
 
-    def __init__(self, name, upstream_addr, bind_addr):
+    def __init__(self, name, upstream_addr, bind_addr, channel_options = None):
         self.name = name
         self.bind_addr = bind_addr
         self.upstream_addr = upstream_addr
@@ -45,7 +45,7 @@ class WebApp:
         self.host_name = (WebApp.get_host() + '_' + name)
         self.stub = None
 
-        self.set_channel_stub(upstream_addr)
+        self.set_channel_stub(upstream_addr, channel_options)
 
     def start(self):
         raise NotImplementedError('Method not implemented!')
