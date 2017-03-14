@@ -12,17 +12,21 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--upstream", help="upstream addr and port")
 parser.add_argument("--bind", help="bind addr and port")
 parser.add_argument("--name", help="app name. can be 'dns', 'frontend', 'proxy', 'counter")
+parser.add_argument("--dnslb", help="use client load balancer", action='store_true', default=False)
+
+def channel_options(args):
+    return [('grpc.lb_policy_name', 'round_robin')] if args.dnslb else None
 
 if __name__ == '__main__':
     args = parser.parse_args()
     name = args.name
 
     if name == 'frontend':
-        f = Frontend(name, args.upstream, args.bind)
+        f = Frontend(name, args.upstream, args.bind, channel_options(args))
         f.start()
 
     elif name == 'proxy':
-        p = Proxy(name, args.upstream, args.bind)
+        p = Proxy(name, args.upstream, args.bind, channel_options(args))
         p.start()
 
     elif name == 'counter':
