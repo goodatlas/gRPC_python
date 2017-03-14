@@ -15,3 +15,6 @@ stop:
 
 log:
 	@docker service logs -f grpcpython_stack_counter
+
+log_frontend:
+	@docker service logs -f grpcpython_stack_frontend
