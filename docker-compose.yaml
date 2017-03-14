@@ -28,7 +28,7 @@ services:
     image: grpcpython
     # command: ["python3.6", "web.py", "frontend", "0.0.0.0", "50003"]
     # command: sleep 1000000
-    command: python3.6 main.py --name frontend --upstream proxy:50002 --bind 0.0.0.0:8080
+    command: python3.6 main.py --name frontend --upstream tasks.proxy:50002 --bind 0.0.0.0:8080 --dnslb
     ports:
       - "8080:8080"
     deploy:
