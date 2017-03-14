@@ -14,7 +14,7 @@ class WebApp:
         import platform
         return platform.node()
 
-    def set_channel_stub(self, upstreamaddr, channel_options = None):
+    def set_channel_stub(self, upstreamaddr, channel_options=None):
         channel = grpc.insecure_channel(upstreamaddr, channel_options)
         self.stub = CounterStub(channel)
 
@@ -36,7 +36,7 @@ class WebApp:
         self.s.bind((host, int(port)))
         self.s.listen(backlog)
 
-    def __init__(self, name, upstream_addr, bind_addr, channel_options = None):
+    def __init__(self, name, upstream_addr, bind_addr, channel_options=None):
         self.name = name
         self.bind_addr = bind_addr
         self.upstream_addr = upstream_addr
