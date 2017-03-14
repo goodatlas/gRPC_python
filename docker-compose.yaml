@@ -4,7 +4,7 @@ services:
   counter:
     image: grpcpython
     # command: ["python3.6", "counter/server.py"]
-    command: python3.6 main.py --name counter
+    command: python3.6 main.py --name counter --bind 0.0.0.0:31337
     # command: sleep 1000000
     # command: while true;do echo "test";sleep 1;done
     ports:

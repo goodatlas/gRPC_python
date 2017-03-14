@@ -31,7 +31,7 @@ if __name__ == '__main__':
         p.start()
 
     elif name == 'counter':
-        run_server()
+        run_server(args.bind)
 
     else:
         raise RuntimeError("Invalid App name!!")

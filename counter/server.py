@@ -52,10 +52,10 @@ class Counter(counter_pb2_grpc.CounterServicer):
         return counter_pb2.IncrementResponse(count=Counter.page_count[request.name])
 
 
-def run_server():
+def run_server(bind_addr):
     server = grpc.server(futures.ThreadPoolExecutor(max_workers=10))
     counter_pb2_grpc.add_CounterServicer_to_server(Counter(), server)
-    server.add_insecure_port('[::]:31337')
+    server.add_insecure_port(bind_addr)
     server.start()
     print("Counter Server Start!!!")
 
