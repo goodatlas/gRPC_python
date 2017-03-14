@@ -12,3 +12,7 @@ machine:
 dependencies:
   pre:
     - pip install -r requirements/requirements.txt
+
+test:
+  override:
+    - tests/*.py
