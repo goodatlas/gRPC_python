@@ -33,7 +33,7 @@ class Counter(counter_pb2_grpc.CounterServicer):
         write_func = sys.stdout.write
         write_func("\n")
         write_func("---------------------\n")
-        write_func('Hits: %d\n' % cls.total_count)
+        write_func('Hits:\n')
         for page_name in cls.page_count.keys():
             write_func('%s: %d\n' % (page_name, cls.page_count[page_name]))
         write_func("---------------------\n")
@@ -45,26 +45,11 @@ class Counter(counter_pb2_grpc.CounterServicer):
         try:
             Counter.page_count[request.name] += 1
         except KeyError:
-            raise RuntimeError('Unexpected Page!!!')
+            Counter.page_count[request.name] = 1
 
         self.print_data()
 
-        return counter_pb2.IncrementResponse(count=Counter.total_count)
-
-    def InitPage(self, request, _):
-        Counter.page_count[request.name] = 0
-        print(request.name, "is initialized")
-
-        return counter_pb2.InitPageResponse(name=request.name)
-
-    def InitConnection(self, *_):
-        return counter_pb2.InitResponse(result=True)
-
-    @classmethod
-    def total_page(cls):
-        # wrap list()
-        # because dict.keys() returns dict_keys type.
-        return list(cls.page_count.keys())
+        return counter_pb2.IncrementResponse(count=Counter.page_count[request.name])
 
 
 def run_server():
